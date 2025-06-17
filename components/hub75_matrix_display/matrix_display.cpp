@@ -21,7 +21,7 @@ namespace esphome
 
             // Display Setup
             dma_display_ = new MatrixPanel_I2S_DMA(this->mxconfig_);
-            virtual_panel_ = new VirtualMatrixPanel(dma_display_, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
+            virtual_panel_ = new VirtualMatrixPanel(*dma_display_, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
             
             this->dma_display_->begin();
             set_brightness(this->initial_brightness_);
@@ -117,7 +117,8 @@ namespace esphome
         void MatrixDisplay::filled_rectangle(int x1, int y1, int width, int height, Color color)
         {
             // Wrap fill rectangle method
-            this->virtual_panel_->fillRect(x1, y1, width, width, color.r, color.g, color.b);
+            uint16_t rgb565 = virtual_panel_->color565(color.r, color.g, color.b);
+            static_cast<Adafruit_GFX*>(virtual_panel_)->fillRect(x1, y1, width, height, rgb565);
         }
 
     } // namespace matrix_display
