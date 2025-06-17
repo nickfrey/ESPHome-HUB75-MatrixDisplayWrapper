@@ -20,12 +20,12 @@ namespace esphome
             this->mxconfig_.double_buff = true;
 
             // Display Setup
-            dma_display = new MatrixPanel_I2S_DMA(this->mxconfig_);
-            virtual_panel = new VirtualMatrixPanel(dma_display, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
+            dma_display_ = new MatrixPanel_I2S_DMA(this->mxconfig_);
+            virtual_panel_ = new VirtualMatrixPanel(dma_display_, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
             
             this->dma_display_->begin();
             set_brightness(this->initial_brightness_);
-            this->virtual_panel->clearScreen();
+            this->virtual_panel_->clearScreen();
 
             // Default to off if power switches are present
             set_state(!this->power_switches_.size());
@@ -43,10 +43,10 @@ namespace esphome
             }
             else
             {
-                this->virtual_panel->clearScreen();
+                this->virtual_panel_->clearScreen();
             }
             // Flip buffer to show changes
-            this->virtual_panel->flipDMABuffer();
+            this->virtual_panel_->flipDMABuffer();
         }
 
         void MatrixDisplay::dump_config()
@@ -105,19 +105,19 @@ namespace esphome
                 return;
 
             // Update pixel value in buffer
-            this->virtual_panel->drawPixelRGB888(x, y, color.r, color.g, color.b);
+            this->virtual_panel_->drawPixelRGB888(x, y, color.r, color.g, color.b);
         }
 
         void MatrixDisplay::fill(Color color)
         {
             // Wrap fill screen method
-            this->virtual_panel->fillScreenRGB888(color.r, color.g, color.b);
+            this->virtual_panel_->fillScreenRGB888(color.r, color.g, color.b);
         }
 
         void MatrixDisplay::filled_rectangle(int x1, int y1, int width, int height, Color color)
         {
             // Wrap fill rectangle method
-            this->virtual_panel->fillRect(x1, y1, width, width, color.r, color.g, color.b);
+            this->virtual_panel_->fillRect(x1, y1, width, width, color.r, color.g, color.b);
         }
 
     } // namespace matrix_display

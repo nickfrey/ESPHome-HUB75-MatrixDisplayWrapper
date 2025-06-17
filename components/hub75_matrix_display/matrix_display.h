@@ -225,7 +225,7 @@ namespace esphome
         protected:
             /// @brief Wrapped matrix display
             MatrixPanel_I2S_DMA *dma_display_ = nullptr;
-            VirtualMatrixPanel *virtual_panel = nullptr;
+            VirtualMatrixPanel *virtual_panel_ = nullptr;
             
             /// @brief Matrix configuration
             HUB75_I2S_CFG mxconfig_;
