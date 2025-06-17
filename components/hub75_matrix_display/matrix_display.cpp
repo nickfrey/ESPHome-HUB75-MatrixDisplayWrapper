@@ -26,7 +26,8 @@ namespace esphome
             this->dma_display_->begin();
             set_brightness(this->initial_brightness_);
             this->virtual_panel_->clearScreen();
-
+            this->virtual_panel_->fillScreenRGB888(255, 0, 0);
+            
             // Default to off if power switches are present
             set_state(!this->power_switches_.size());
         }
@@ -100,6 +101,7 @@ namespace esphome
 
         void HOT MatrixDisplay::draw_absolute_pixel_internal(int x, int y, Color color)
         {
+            return;
             // Reject invalid pixels
             if (x >= this->get_width_internal() || x < 0 || y >= this->get_height_internal() || y < 0)
                 return;
@@ -110,12 +112,14 @@ namespace esphome
 
         void MatrixDisplay::fill(Color color)
         {
+            return;
             // Wrap fill screen method
             this->virtual_panel_->fillScreenRGB888(color.r, color.g, color.b);
         }
 
         void MatrixDisplay::filled_rectangle(int x1, int y1, int width, int height, Color color)
         {
+            return;
             // Wrap fill rectangle method
             uint16_t rgb565 = virtual_panel_->color565(color.r, color.g, color.b);
             static_cast<Adafruit_GFX*>(virtual_panel_)->fillRect(x1, y1, width, height, rgb565);
