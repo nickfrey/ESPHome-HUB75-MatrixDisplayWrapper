@@ -21,7 +21,7 @@ namespace esphome
 
             // Display Setup
             dma_display_ = new MatrixPanel_I2S_DMA(this->mxconfig_);
-            virtual_panel_ = new VirtualMatrixPanel(*dma_display_, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN);
+            virtual_panel_ = new VirtualMatrixPanel(*dma_display_, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
             
             this->dma_display_->begin();
             set_brightness(this->initial_brightness_);
