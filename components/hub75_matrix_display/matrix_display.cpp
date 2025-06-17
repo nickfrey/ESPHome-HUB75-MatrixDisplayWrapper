@@ -20,10 +20,12 @@ namespace esphome
             this->mxconfig_.double_buff = true;
 
             // Display Setup
-            dma_display_ = new MatrixPanel_I2S_DMA(this->mxconfig_);
+            dma_display = new MatrixPanel_I2S_DMA(this->mxconfig_);
+            virtual_panel = new VirtualMatrixPanel(dma_display, /* rows */ 2, /* cols */ 2, /* resX */ 64, /* resY */ 32, CHAIN_TOP_RIGHT_DOWN_ZZ);
+            
             this->dma_display_->begin();
             set_brightness(this->initial_brightness_);
-            this->dma_display_->clearScreen();
+            this->virtual_panel->clearScreen();
 
             // Default to off if power switches are present
             set_state(!this->power_switches_.size());
@@ -41,10 +43,10 @@ namespace esphome
             }
             else
             {
-                this->dma_display_->clearScreen();
+                this->virtual_panel->clearScreen();
             }
             // Flip buffer to show changes
-            this->dma_display_->flipDMABuffer();
+            this->virtual_panel->flipDMABuffer();
         }
 
         void MatrixDisplay::dump_config()
@@ -103,19 +105,19 @@ namespace esphome
                 return;
 
             // Update pixel value in buffer
-            this->dma_display_->drawPixelRGB888(x, y, color.r, color.g, color.b);
+            this->virtual_panel->drawPixelRGB888(x, y, color.r, color.g, color.b);
         }
 
         void MatrixDisplay::fill(Color color)
         {
             // Wrap fill screen method
-            this->dma_display_->fillScreenRGB888(color.r, color.g, color.b);
+            this->virtual_panel->fillScreenRGB888(color.r, color.g, color.b);
         }
 
         void MatrixDisplay::filled_rectangle(int x1, int y1, int width, int height, Color color)
         {
             // Wrap fill rectangle method
-            this->dma_display_->fillRect(x1, y1, width, width, color.r, color.g, color.b);
+            this->virtual_panel->fillRect(x1, y1, width, width, color.r, color.g, color.b);
         }
 
     } // namespace matrix_display
